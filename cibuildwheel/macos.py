@@ -643,6 +643,7 @@ def build(options: Options, tmp_path: Path) -> None:
                 # let's see exactly which bit is failing with ErrNo20 = NotADirectoryError
                 dir = build_options.output_dir.resolve()
                 log.notice(f"Wheel will go into {dir}")
+                dir.mkdir(exist_ok=True)
                 try:
                     contents = "\n".join(str(f) for f in dir.iterdir())
                     log.notice(f"Current contents:\n{contents}")
