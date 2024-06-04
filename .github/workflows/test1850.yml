@@ -41,15 +41,15 @@ jobs:
       with:
         repository: 'MusicalNinjaDad/FizzBuzz'
         ref: 'pr48'
-        path: 'FizzBuzz'
+        path: '../FizzBuzz'
 
     - name: Show resulting directories
       shell: bash
       run: |
         pwd
         ls -al
-        echo 'ls-al ../..'
-        ls -al ../..
+        echo 'ls-al ..'
+        ls -al ..
 
   #   - name: Run a sample build (GitHub Action)
   #     uses: ./
