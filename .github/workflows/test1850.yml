@@ -48,8 +48,8 @@ jobs:
       run: |
         pwd
         ls -al
-        echo 'ls-al ..'
-        ls -al ..
+        echo 'ls-al ../..'
+        ls -al ../..
 
   #   - name: Run a sample build (GitHub Action)
   #     uses: ./
