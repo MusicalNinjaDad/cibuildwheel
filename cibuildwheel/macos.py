@@ -651,6 +651,9 @@ def build(options: Options, tmp_path: Path) -> None:
                         log.error(e)
 
                 dir = build_options.output_dir.resolve()
+                # file.rename() will fail if the target directory does not already exist,
+                # os.move() will rename the file to what we were expecting to be the parent directory
+                dir.mkdir(parents=True, exist_ok=True)
                 log.notice(f"Wheel will go into {dir}")
                 with log_exception(f"Checking current contents of {dir}"):
                     contents = "\n".join(str(f) for f in dir.iterdir())
