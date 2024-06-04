@@ -55,3 +55,6 @@ jobs:
 
     - name: Run a sample build (GitHub Action)
       uses: ./cibw/
+      env:
+        CIBW_BEFORE_TEST_MACOS: 'ls -al && echo {package} && ls -al {package}'
+        CIBW_BEFORE_TEST_WINDOWS: 'ls && echo {package} && ls {package}'
