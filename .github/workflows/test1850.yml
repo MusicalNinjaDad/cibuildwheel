@@ -55,8 +55,6 @@ jobs:
 
     - name: Run a sample build (GitHub Action)
       uses: ./cibw/
-      with:
-        package-dir: FizzBuzz
 
   #   - name: Run a sample build (GitHub Action, only)
   #     uses: ./
