@@ -31,6 +31,8 @@ jobs:
     timeout-minutes: 180
     steps:
     - uses: actions/checkout@v4
+      with:
+        path: 'cibw'
     - uses: actions/setup-python@v5
       name: Install Python ${{ matrix.python_version }}
       with:
@@ -41,7 +43,7 @@ jobs:
       with:
         repository: 'MusicalNinjaDad/FizzBuzz'
         ref: 'pr48'
-        path: 'FizzBuzz'
+        path: '.'
 
     - name: Show resulting directories
       shell: bash
@@ -50,7 +52,7 @@ jobs:
         ls -al
 
     - name: Run a sample build (GitHub Action)
-      uses: ./
+      uses: ./cibw/
       with:
         package-dir: FizzBuzz
 
