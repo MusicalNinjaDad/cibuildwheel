@@ -568,8 +568,9 @@ def build(options: Options, tmp_path: Path) -> None:
                 with log_exception(f"Unlinking {output_wheel}"):
                     output_wheel.unlink(missing_ok=True)
                 
-                with log_exception(f"Renaming {repaired_wheel} to {output_wheel}"):
-                    repaired_wheel.rename(output_wheel)
+                with log_exception(f"Moving {repaired_wheel} to {output_wheel}"):
+                    # Path.rename() cannot cross filesystem boundaries on windows
+                    shutil.move(repaired_wheel, output_wheel)
                     built_wheels.append(output_wheel)
 
                 with log_exception(f"Checking new contents of {output_dir}"):
