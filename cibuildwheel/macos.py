@@ -643,18 +643,22 @@ def build(options: Options, tmp_path: Path) -> None:
                 # let's see exactly which bit is failing with ErrNo20 = NotADirectoryError
                 dir = build_options.output_dir.resolve()
                 log.notice(f"Wheel will go into {dir}")
-                dir.mkdir(exist_ok=True)
                 try:
                     contents = "\n".join(str(f) for f in dir.iterdir())
                     log.notice(f"Current contents:\n{contents}")
-                except(Exception):
-                    contents = ""
+                except(Exception) as e:
+                    log.error(e)
+
                 file = dir.joinpath(repaired_wheel.name)
                 log.notice(f"Wheel will be named {file}")
                 file.unlink(missing_ok=True)
-
                 shutil.move(str(repaired_wheel), build_options.output_dir)
                 built_wheels.append(build_options.output_dir / repaired_wheel.name)
+                try:
+                    contents = "\n".join(str(f) for f in dir.iterdir())
+                    log.notice(f"New contents:\n{contents}")
+                except(Exception) as e:
+                    log.error(e)
 
             # clean up
             shutil.rmtree(identifier_tmp_dir)
