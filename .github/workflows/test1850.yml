@@ -49,13 +49,11 @@ jobs:
         pwd
         ls -al
 
-  #   - name: Run a sample build (GitHub Action)
-  #     uses: ./
-  #     with:
-  #       package-dir: sample_proj
-  #       output-dir: wheelhouse
-  #     env:
-  #       CIBW_ARCHS_MACOS: x86_64 universal2 arm64
+    - name: Run a sample build (GitHub Action)
+      uses: ./
+      with:
+        package-dir: FizzBuzz
+  
 
   #   - name: Run a sample build (GitHub Action, only)
   #     uses: ./
