@@ -645,7 +645,7 @@ def build(options: Options, tmp_path: Path) -> None:
                 log.notice(f"Wheel will go into {dir}")
                 contents = ""
                 from contextlib import suppress
-                with suppress(FileNotFoundError()):
+                with suppress(FileNotFoundError):
                     contents = "\n".join(str(f) for f in dir.iterdir())
                     log.notice(f"Current contents:\n{contents}")
                 file = dir.joinpath(repaired_wheel.name)
