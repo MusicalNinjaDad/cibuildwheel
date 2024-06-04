@@ -1,0 +1,46 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - MusicalNinjaDad/issue1850*
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }} (${{ matrix.python_version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-14]
+        python_version: ['3.12']
+    timeout-minutes: 180
+    steps:
+
+    - name: Clone FizzBuzz at offending SHA
+      uses: actions/checkout@v4
+      with:
+        repository: 'MusicalNinjaDad/FizzBuzz'
+        ref: 'pr48'
+        path: '.'
+
+    - uses: actions/checkout@v4
+      with:
+        path: 'cibw'
+
+    - uses: actions/setup-python@v5
+      name: Install Python ${{ matrix.python_version }}
+      with:
+        python-version: ${{ matrix.python_version }}
+
+    - name: Show resulting directories
+      shell: bash
+      run: |
+        pwd
+        ls -al
+
+    - name: Run a sample build (GitHub Action)
+      uses: ./cibw/
+      env:
+        CIBW_BEFORE_TEST_MACOS: 'echo {package} && ls -al {package} && echo {package}/wheelhouse && ls -al {package}/wheelhouse || true'
+        CIBW_BEFORE_TEST_WINDOWS: 'echo {package} && ls -al {package} && echo {package}/wheelhouse && ls -al {package}/wheelhouse || true'
