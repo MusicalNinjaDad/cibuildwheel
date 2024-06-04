@@ -30,13 +30,6 @@ jobs:
         python_version: ['3.9']
     timeout-minutes: 180
     steps:
-    - uses: actions/checkout@v4
-      with:
-        path: 'cibw'
-    - uses: actions/setup-python@v5
-      name: Install Python ${{ matrix.python_version }}
-      with:
-        python-version: ${{ matrix.python_version }}
 
     - name: Clone FizzBuzz at offending SHA
       uses: actions/checkout@v4
@@ -44,6 +37,15 @@ jobs:
         repository: 'MusicalNinjaDad/FizzBuzz'
         ref: 'pr48'
         path: '.'
+
+    - uses: actions/checkout@v4
+      with:
+        path: 'cibw'
+    
+    - uses: actions/setup-python@v5
+      name: Install Python ${{ matrix.python_version }}
+      with:
+        python-version: ${{ matrix.python_version }}
 
     - name: Show resulting directories
       shell: bash
