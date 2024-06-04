@@ -640,39 +640,16 @@ def build(options: Options, tmp_path: Path) -> None:
 
             # we're all done here; move it to output (overwrite existing)
             if compatible_wheel is None:
-                # let's see exactly which bit is failing with ErrNo20 = NotADirectoryError
-                from contextlib import contextmanager
-                @contextmanager
-                def log_exception(msg):
-                    log.notice(msg)
-                    try:
-                        yield
-                    except(Exception) as e:
-                        log.error(e)
-
                 output_dir = build_options.output_dir.resolve()
-                # file.rename() will fail if the target directory does not already exist,
-                # os.move() will rename the file to what we were expecting to be the parent directory
+                output_wheel = output_dir.joinpath(repaired_wheel.name).resolve()
+                output_wheel.unlink(missing_ok=True)
+
+                # os.move() will rename the file to what we were expecting to be the parent directory if we don't ensure it exists
                 output_dir.mkdir(parents=True, exist_ok=True)
-                log.notice(f"Wheel will go into {output_dir}")
-                with log_exception(f"Checking current contents of {output_dir}"):
-                    contents = "\n".join(str(f) for f in output_dir.iterdir())
-                    log.notice(f"Current contents:\n{contents}")
-
-                with log_exception("Identifying output_wheel path"):
-                    output_wheel = output_dir.joinpath(repaired_wheel.name).resolve()
-                    log.notice(f"Wheel will be named {output_wheel}")
                 
-                with log_exception(f"Unlinking {output_wheel}"):
-                    output_wheel.unlink(missing_ok=True)
-                
-                with log_exception(f"Renaming {repaired_wheel} to {output_wheel}"):
-                    repaired_wheel.rename(output_wheel)
-                    built_wheels.append(output_wheel)
-
-                with log_exception(f"Checking new contents of {output_dir}"):
-                    contents = "\n".join(str(f) for f in output_dir.iterdir())
-                    log.notice(f"New contents:\n{contents}")
+                # using os.move() as Path.rename() is not guaranteed to work across filesystem boundaries
+                shutil.move(repaired_wheel, output_wheel)
+                built_wheels.append(output_wheel)
 
             # clean up
             shutil.rmtree(identifier_tmp_dir)
