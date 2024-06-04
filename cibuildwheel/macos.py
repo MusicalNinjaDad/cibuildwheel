@@ -661,9 +661,9 @@ def build(options: Options, tmp_path: Path) -> None:
                 with log_exception(f"Unlinking {file}"):
                     file.unlink(missing_ok=True)
                 
-                with log_exception(f"Moving {repaired_wheel} to {build_options.output_dir}"):
-                    shutil.move(str(repaired_wheel), build_options.output_dir)
-                    built_wheels.append(build_options.output_dir / repaired_wheel.name)
+                with log_exception(f"Renaming {repaired_wheel} to {file}"):
+                    repaired_wheel.rename(file)
+                    built_wheels.append(file)
 
                 with log_exception(f"Checking new contents of {dir}"):
                     contents = "\n".join(str(f) for f in dir.iterdir())
