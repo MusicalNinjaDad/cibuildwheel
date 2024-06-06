@@ -37,7 +37,6 @@ from platformdirs import user_cache_path
 
 from ._compat import tomllib
 from .architecture import Architecture
-from .logger import log
 from .typing import PathOrStr, PlatformName
 
 __all__ = [
@@ -375,6 +374,9 @@ def move_file(src_file: Path, dst_file: Path) -> Path:
         IsADirectoryError: If `dst_file` points directly to an existing directory
     """
     
+    # Importing here as logger needs various functions from util -> circular imports
+    from .logger import log
+
     src_file = src_file.resolve()
     dst_file = dst_file.resolve()
 
