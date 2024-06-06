@@ -37,6 +37,7 @@ from platformdirs import user_cache_path
 
 from ._compat import tomllib
 from .architecture import Architecture
+from .logger import log
 from .typing import PathOrStr, PlatformName
 
 __all__ = [
@@ -386,7 +387,9 @@ def move_file(src_file: Path, dst_file: Path) -> Path:
     # using shutil.move() as Path.rename() is not guaranteed to work across filesystem boundaries
     # explicit str() needed for Python 3.8
     resulting_file = shutil.move(str(src_file), str(dst_file))
-    return Path(resulting_file).resolve()
+    resulting_file = Path(resulting_file).resolve()
+    log.notice(f"Moved {src_file} to {resulting_file}")
+    return Path(resulting_file)
     
 
 class DependencyConstraints:
