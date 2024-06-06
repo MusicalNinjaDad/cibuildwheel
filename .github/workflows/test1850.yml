@@ -42,5 +42,4 @@ jobs:
     - name: Run a sample build (GitHub Action)
       uses: ./cibw/
       env:
-        CIBW_BEFORE_TEST_MACOS: 'echo {package} && ls -al {package} && echo {package}/wheelhouse && ls -al {package}/wheelhouse || true'
-        CIBW_BEFORE_TEST_WINDOWS: 'echo {package} && ls -al {package} && echo {package}/wheelhouse && ls -al {package}/wheelhouse || true'
+        CIBW_BEFORE_TEST: 'echo {package} && ls -al {package} && echo {package}/wheelhouse && ls -al {package}/wheelhouse || true'
