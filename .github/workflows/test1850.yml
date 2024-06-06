@@ -7,13 +7,18 @@ on:
 
 jobs:
   test:
-    name: Test on ${{ matrix.os }} (${{ matrix.python_version }})
+    name: Test on ${{ matrix.os }} (${{ matrix.python_version }}) ${{ matrix.platform }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [windows-latest, macos-14]
         python_version: ['3.12']
+        platform: ['auto']
+        include:
+        - os: macos-14
+          python_version: '3.12'
+          platform: 'pyodide'
     timeout-minutes: 180
     steps:
 
@@ -43,3 +48,4 @@ jobs:
       uses: ./cibw/
       env:
         CIBW_BEFORE_TEST: 'echo {package} && ls -al {package} && echo {package}/wheelhouse && ls -al {package}/wheelhouse || true'
+        CIBW_PLATFORM: ${{ matrix.platform }}
