@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Dict
 
 import pytest
-import setuptools._distutils.util  # type: ignore[import-untyped]
+import setuptools._distutils.util  # type: ignore[import-not-found]
 
 from cibuildwheel.windows import PythonConfiguration, setup_setuptools_cross_compile
 
