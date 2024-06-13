@@ -54,6 +54,7 @@ def test_arm(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     assert generated_environment["VSCMD_ARG_TGT_ARCH"] == "arm64"
     assert target_platform == "win-arm64"
 
+
 def test_env_set(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     arch = "32"
     configuration = PythonConfiguration("irrelevant", arch, "irrelevant", None)
