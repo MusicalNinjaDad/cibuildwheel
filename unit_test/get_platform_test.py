@@ -35,7 +35,7 @@ def test_x86(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
 def test_x64(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     arch = "64"
     environment: Dict[str, str] = {}
-    
+
     configuration = PythonConfiguration("irrelevant", arch, "irrelevant", None)
 
     setup_setuptools_cross_compile(tmp_path, configuration, tmp_path, environment)
@@ -49,7 +49,7 @@ def test_x64(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
 def test_arm(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     arch = "ARM64"
     environment: Dict[str, str] = {}
-    
+
     configuration = PythonConfiguration("irrelevant", arch, "irrelevant", None)
 
     setup_setuptools_cross_compile(tmp_path, configuration, tmp_path, environment)
@@ -63,7 +63,7 @@ def test_arm(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
 def test_env_set(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     arch = "32"
     environment = {"VSCMD_ARG_TGT_ARCH": "arm64"}
-    
+
     configuration = PythonConfiguration("irrelevant", arch, "irrelevant", None)
 
     setup_setuptools_cross_compile(tmp_path, configuration, tmp_path, environment)
@@ -77,7 +77,7 @@ def test_env_set(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
 def test_env_blank(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     arch = "32"
     environment = {"VSCMD_ARG_TGT_ARCH": ""}
-    
+
     configuration = PythonConfiguration("irrelevant", arch, "irrelevant", None)
 
     setup_setuptools_cross_compile(tmp_path, configuration, tmp_path, environment)
