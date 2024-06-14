@@ -1,7 +1,7 @@
 # ruff: noqa: ARG001
 import contextlib
 from pathlib import Path
-from typing import Dict, Generator
+from typing import Dict
 
 import pytest
 import setuptools._distutils.util  # type: ignore[import-untyped]
@@ -9,13 +9,8 @@ import setuptools._distutils.util  # type: ignore[import-untyped]
 from cibuildwheel.windows import PythonConfiguration, setup_setuptools_cross_compile
 
 
-@pytest.fixture()
-def configuration(arch: str) -> PythonConfiguration:
-    return PythonConfiguration("irrelevant", arch, "irrelevant", None)
-
-
 @contextlib.contextmanager
-def patched_environment(monkeypatch: pytest.MonkeyPatch, environment: Dict[str, str]) -> Generator:
+def patched_environment(monkeypatch: pytest.MonkeyPatch, environment: Dict[str, str]):
     with monkeypatch.context() as mp:
         mp.setattr("os.name", "nt")
         for envvar, val in environment.items():
@@ -65,7 +60,7 @@ def test_arm(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
 def test_env_set(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     arch = "32"
     configuration = PythonConfiguration("irrelevant", arch, "irrelevant", None)
-    environment: Dict[str, str] = {"VSCMD_ARG_TGT_ARCH": "arm64"}
+    environment = {"VSCMD_ARG_TGT_ARCH": "arm64"}
 
     setup_setuptools_cross_compile(tmp_path, configuration, tmp_path, environment)
     with patched_environment(monkeypatch, environment):
@@ -78,7 +73,7 @@ def test_env_set(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
 def test_env_blank(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     arch = "32"
     configuration = PythonConfiguration("irrelevant", arch, "irrelevant", None)
-    environment: Dict[str, str] = {"VSCMD_ARG_TGT_ARCH": ""}
+    environment = {"VSCMD_ARG_TGT_ARCH": ""}
 
     setup_setuptools_cross_compile(tmp_path, configuration, tmp_path, environment)
     with patched_environment(monkeypatch, environment):
