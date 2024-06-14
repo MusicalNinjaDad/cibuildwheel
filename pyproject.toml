@@ -75,6 +75,7 @@ test = [
     "pytest-timeout",
     "pytest-xdist",
     "pytest>=6",
+    "setuptools",
     "tomli_w",
     "validate-pyproject",
 ]
